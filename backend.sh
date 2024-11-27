@@ -33,6 +33,7 @@ VALIDATE $? "enabling nodejs:20"
 
 dnf install nodejs -y &>>$LOGFILE
 VALIDATE $? "installing nodejs"
+
 id expense  &>>$LOGFILE
 if [ $? -ne 0 ]
 then
@@ -41,4 +42,8 @@ then
 else
     echo -e "expense user already created....$Y SKIPPING $N"
 fi
+
+mkdir /app
+VALIDATE $? "creating app directory"
+
 
