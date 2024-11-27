@@ -56,4 +56,17 @@ VALIDATE $? "extracting backend code"
 npm install
 VALIDATE $? "install nodejs dependencies"
 
+cp /home/ec2-user/expense-shell-practice /etc/systemd/system/backend.service
+VALIDATE $? "copied backend services"
+
+systemctl daemon-reload
+VALIDATE $? " daemon-reload"
+
+systemctl start backend
+VALIDATE $? "restarting backend services"
+
+systemctl enable backend
+VALIDATE $? "enabling backend services"
+
+
 
