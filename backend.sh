@@ -7,6 +7,9 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+echo "Please enter DB password:"
+read -s mysql_root_password
+
 VALIDATE(){
    if [ $1 -ne 0 ]
    then
@@ -50,6 +53,7 @@ curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expen
 VALIDATE $? "downloading backend code"
 
 cd /app
+rm -rf /app/*
 unzip /tmp/backend.zip
 VALIDATE $? "extracting backend code"
 
@@ -63,10 +67,20 @@ systemctl daemon-reload
 VALIDATE $? " daemon-reload"
 
 systemctl start backend
-VALIDATE $? "restarting backend services"
+VALIDATE $? "starting backend services"
 
 systemctl enable backend
 VALIDATE $? "enabling backend services"
+
+dnf install mysql -y
+VALIDATE $? "installing mysql client"
+
+mysql -h 172.31.84.46 -uroot -p${mysql_root_password} < /app/schema/backend.sql
+VALIDATE $? "schema loading"
+
+systemctl restart backend
+VALIDATE $? "restart backend"
+
 
 
 
