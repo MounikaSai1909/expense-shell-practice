@@ -75,8 +75,8 @@ VALIDATE $? "enabling backend services"
 dnf install mysql -y &>>$LOGFILE
 VALIDATE $? "installing mysql client"
 
-mysql --host=54.242.131.111 --user=root --password=ExpenseApp@1 < /app/schema/backend.sql &>>$LOGFILE
-#mysql -h 54.242.131.111 -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
+#mysql --host=54.242.131.111 --user=root --password=ExpenseApp@1 < /app/schema/backend.sql &>>$LOGFILE
+mysql -h db.mounka.shop -uroot -p${mysql_root_password} < /app/schema/backend.sql &>>$LOGFILE
 VALIDATE $? "schema loading"
 
 systemctl restart backend &>>$LOGFILE
